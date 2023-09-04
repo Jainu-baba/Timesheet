@@ -1,0 +1,39 @@
+.wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+.manager-form-data {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.manager-form-headers {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.manager-form {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.align-header {
+    justify-content: space-between;
+    width: 70%;
+    margin-bottom: 20px;;
+}
+.align-buttons {
+    justify-content: space-between;
+    float: right;
+    display: flex;
+   
+    flex-direction: row;
+}
+.overall-layout {
+    margin: 5%;
+}
+
+.select {
+    height: 30px;
+}
