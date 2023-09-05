@@ -37,3 +37,192 @@
 .select {
     height: 30px;
 }
+
+.time-sheet-box{
+    width:96%;
+    margin:auto;
+    display: flex;
+    flex-direction: column;
+    margin-top: 30px;
+    gap:5px;
+    /* border:1px solid black;  */
+    padding:10px;
+    padding-top:15px;
+}
+
+.timesheet-grid-container{
+    padding:20px;;
+}
+
+.entry-selectbox{
+    display: flex;
+    justify-content: space-between;
+    padding: 0.375rem 2.25rem 0.375rem 0.75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--input-c); 
+     background-color: var(--input-bg); 
+   background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAxNiAxNic+PHBhdGggZmlsbD0nbm9uZScgc3Ryb2tlPScjOGM4YzhjJyBzdHJva2UtbGluZWNhcD0ncm91bmQnIHN0cm9rZS1saW5lam9pbj0ncm91bmQnIHN0cm9rZS13aWR0aD0nMicgZD0nTTIgNWw2IDYgNi02Jy8+PC9zdmc+);
+    background-repeat: no-repeat;
+    background-position: right 0.5rem center;
+    background-size: 16px 12px;
+    border: 1px solid var(--input-b);
+    border-radius: 0.25rem;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border: 1px solid #c7c7c7; 
+    margin-right: 20px;
+    
+    
+    
+    
+}
+
+.entry-input{
+    /* vertical-align: middle;
+    border-radius: 3px;
+    padding: 7px 5px;
+    background-color: #fff;
+    color: #333;
+    border: 1px solid #c7c7c7;
+    font-size: 15px;
+    font-family: inherit;
+    line-height: 1.5; */
+    width: 3rem;
+    height: 2rem;
+    text-align: center;
+    border: 1px solid #ccc;
+    margin: 0;
+    padding: 0;
+    font-size: 16px;
+}
+
+
+.timesheet-button{
+    border: 1px solid var(--btn-fa-b);
+    /* color: var(--input-c);  */
+    color:white;
+    position: relative;
+    font-size: 14px;
+    padding: 6px 8px;
+    cursor: pointer;
+    border-radius: 3px;
+    font-family: Arial,Helvetica,sans-serif;
+    padding:10px 35px;
+    text-align: center;
+    background:#EEEEEE;
+    border: 1px solid #c7c7c7;
+    border-radius: 0.25rem;
+  background-color:#007bff;
+    width:150px;
+    height:38px;
+  margin-right: 40px;
+
+}
+
+.timesheet-button:disabled{
+    border: 1px solid #999999;
+    background-color: #cccccc;
+    color: #666666;
+}
+
+.rs-btn-disabled{
+    background: #EEEEEE;
+    padding:10px;
+    text-align: center;
+    width:160px;
+    border:1px solid #999999;
+    border-radius:7px
+}
+
+
+.w-30{
+    width: 48px;
+    height:21px;
+}
+
+.mb-20{
+    margin-bottom:20px;
+}
+
+.w-50{
+    width: 2rem;
+    /* padding:10px;
+    text-align: center;
+    height:17px; */
+}
+
+.entry-value{
+    vertical-align: middle;
+    border-radius: 3px;
+    padding: 7px 5px;
+    /* background-color: #fff;
+    color: #333; */
+    background: #EEEEEE;
+    border: 1px solid #c7c7c7;
+    font-size: 15px;
+    font-family: inherit;
+    line-height: 1.5;
+    width: 48px;
+    padding:10px;
+    text-align: center;
+    height:17px;
+    
+}
+ .delete-icon{
+    margin-top: 10px;
+    height:20px;
+    color:white
+ } 
+ .select-input{
+    width:182px;    
+ }                         
+
+ .entry{
+    width:60px;
+ }
+ .employee-select {
+    display: flex;
+    gap: 20px;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  .total-hrs-date{
+    margin-top:30px;
+  }
+  .employee-name{
+    width: 300px;
+  }
+  .dates{
+    width: 210px;
+  }
+  .employee-name{
+    width:220px;
+    height:38px;
+    border: 1px solid #c7c7c7; 
+    border-radius: 0.25rem;
+  }
+  .table-dark{
+    margin-right: 20px;
+  }
+   table{
+    border-spacing:0 ;
+  }
+
+  /* Disable the dropdown */
+.disabled{
+    pointer-events: none;
+    opacity: 1;
+    background-color: #F2F3F4;
+    
+}
+  .noData {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+    position: absolute;
+  
+    left: 45%;
+  }

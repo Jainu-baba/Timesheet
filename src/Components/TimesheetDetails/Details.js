@@ -6,17 +6,19 @@ import Stack from '@mui/material/Stack';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import Button from '@mui/material/Button';
+import Employee from "../Employee/Employee";
+import DateRange from '../Employee/DateRange.json';
+import { useState, useEffect } from 'react';
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 const Details = () => {
+  localStorage.setItem("role", 'manager');
   const naviagate = useNavigate();
   const BacktoManagerApprove = () => {
     settoastOpen(true);
     setTimeout(() => naviagate("/manager"), 1000);
-    
-
-  }
+  }  
   const BacktoManagerRejected = () => {
     setrejectoast(true);
     setTimeout(() => naviagate("/manager"), 1000);
@@ -52,17 +54,22 @@ const Details = () => {
         </Alert>
       </Snackbar>
       <Grid container spacing={2}>
+      
         <Grid item xs={7}>
           <Button onClick={(e) => BacktoManager()}><ArrowBackIcon /></Button>
+       
         </Grid>
         <Grid item xs={4}>
 
           <Grid item xs={6}>
-            <Stack direction="row" spacing={2}>
-              <Button variant="contained" color="success" onClick={(e) => BacktoManagerApprove()}>Approve</Button>
-              <Button variant="contained" color="error" onClick={(e) => BacktoManagerRejected()} >Reject</Button>
-            </Stack>
+            
           </Grid>
+        </Grid>
+        
+        <Employee />
+        
+        <Grid>
+    
         </Grid>
 
       </Grid>
