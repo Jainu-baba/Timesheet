@@ -61,7 +61,6 @@ const TimeSheetEntry = (props) => {
     const [employee, setEmployee] = useState('');
     const [selectedDateRange, setselectedDateRange] = useState("");
 
-    // 
     const BacktoManagerApprove = () => {
         const data = [{
       id: props?.empDetails?.id,
@@ -75,10 +74,7 @@ const TimeSheetEntry = (props) => {
       console.log('err:',err);
     })
   return;
-  // localStorage.setItem("approved", true);
-        // settoastOpen(true);
-        // setTimeout(() => naviagate("/manager"), 1000);
-
+  
 
 
     
@@ -96,10 +92,7 @@ const TimeSheetEntry = (props) => {
       console.log('err:',err);
     })
   return;
-        // setrejectoast(true);
-        // setTimeout(() => naviagate("/manager"), 1000);
-        // localStorage.setItem("approved", true);
-
+      
 
     }
     const handleClickOpen = () => {
@@ -117,21 +110,7 @@ const TimeSheetEntry = (props) => {
         settoastOpen(false);
         setrejectoast(false);
     };
-    useEffect(() => {
-        // setTimeSheetRows([{ projectCode: '', jobCode: '', day1: 0, day2: 0, day3: 0, day4: 0, day5: 0, day6: 0, day7: 0, total: 0 }])
-        console.log('props?.name',props?.name);
-        // if (props?.name && props?.name.length > 0) {
-        //     setEmployeeName(props.name);
-        //     setTimeSheetRows([props?.empDetails ? props?.empDetails : { projectCode: '', jobCode: '', day1: 0, day2: 0, day3: 0, day4: 0, day5: 0, day6: 0, day7: 0, total: 0 }])
-        //     setDay1Total(parseInt(props.empDetails['day1']));
-        //     setDay2Total(parseInt(props.empDetails['day2']));
-        //     setDay3Total(parseInt(props.empDetails['day3']));
-        //     setDay4Total(parseInt(props.empDetails['day4']));
-        //     setDay5Total(parseInt(props.empDetails['day5']));
-        //     setDay6Total(parseInt(props.empDetails['day6']));
-        //     setDay7Total(parseInt(props.empDetails['day7']));
-        // }
-    }, []);
+    
 
 
     useEffect(() => {
@@ -143,36 +122,7 @@ const TimeSheetEntry = (props) => {
         console.log(DateRange[0].dates);
         setProjectCodes(projectData);
         setJobCodes(jobData);
-        if (window.location.href.includes("details")) {
-            //     const employeesData= JSON.parse(localStorage.getItem('EmployeesData'));
-            //     const pathname = window.location.pathname;
-            //     const name = pathname.split("/")[2];
-            //     setEmployeeName(name);
-            //     console.log(employeesData);    
-            //   let date = employeesData.length && Object.values(JSON.parse(employeesData[0]))[0].dateIndex;
-            //   setselectedDate(date);
-            //   setSelectedRange(dateRanges[date]);
-            //   setSelectedDates(dateRanges[date]?.dates);
-
-            //   if(employeesData && employeesData.length) {
-            //       const selectedView = Number(localStorage.getItem('details'));
-            //    let timesheetData =   Object.values(Object.values(JSON.parse(employeesData[0]))[0])[0];
-            //   let updateTable =  timesheetData[selectedView]
-            //    setTimeSheetRows([updateTable]);
-            //    setDay1Total( parseInt(updateTable['day1']));
-            //    setDay2Total(parseInt(updateTable['day2']));
-            //    setDay3Total(parseInt(updateTable['day3']));
-            //    setDay4Total(parseInt(updateTable['day4']));
-            //    setDay5Total(parseInt(updateTable['day5']));
-            //    setDay6Total(parseInt(updateTable['day6']));
-            //    setDay7Total(parseInt(updateTable['day7']));
-            //    };
-            //    if(window.location.href.includes("details")) {
-
-
-            //     }
-
-        }
+       
     }, []);
     useEffect(() => {
         console.log('emp', props?.empDetails);
@@ -360,11 +310,6 @@ const TimeSheetEntry = (props) => {
             console.log('test', employee);
         }
 
-        // const empData = localStorage.getItem("empData");
-        // console.log(JSON.parse(empData));
-        // let oldData = localStorage.getItem('EmployeesData') ? JSON.parse(localStorage.getItem('EmployeesData')) : [];
-        // oldData.push(empData);
-        // localStorage.setItem('EmployeesData', JSON.stringify(oldData));
         handleClickOpen();
         setTimeout(() => {
             handleClose();

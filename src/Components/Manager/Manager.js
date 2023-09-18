@@ -103,8 +103,7 @@ const Manager = () => {
   const [rejectoast, setrejectoast] = React.useState(false);
   const [disableButtons, setdisableButtons] = React.useState(true);
   const [selectedDates, setselectedDates] = React.useState("");
-  // const [timeSheetRows,setTimeSheetRows] = React.useState([]);
-
+ 
 
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
