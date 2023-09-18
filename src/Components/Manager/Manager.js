@@ -116,7 +116,7 @@ const Manager = () => {
   };
   const apply = () => {
     const checkedRows = selectedRows.map(e => {e.status = "approve"; return e});
-    axios.put("/timesheetActivity", checkedRows).then(response => {
+    axios.put("/statusChange", checkedRows).then(response => {
     console.log('response:',response);
     settoastOpen(true);
     setrowsData(response.data);
@@ -128,10 +128,8 @@ const Manager = () => {
   }
 
   const reject = () => {
-    
-
       const checkedRows = selectedRows.map(e => {e.status = "rejected"; return e});
-      axios.put("/timesheetActivity", checkedRows).then(response => {
+      axios.put("/statusChange", checkedRows).then(response => {
         console.log('response:',response);
         settoastOpen(true);
         setrowsData(response.data);

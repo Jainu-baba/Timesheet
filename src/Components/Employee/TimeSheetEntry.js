@@ -66,7 +66,7 @@ const TimeSheetEntry = (props) => {
       id: props?.empDetails?.id,
       status: 'approve'
     }]
-    axios.put("/timesheetActivity", data).then(response => {
+    axios.put("/statusChange", data).then(response => {
       console.log('response:',response);
       settoastOpen(true);
       setTimeout(() => naviagate("/manager"), 1000);
@@ -84,7 +84,7 @@ const TimeSheetEntry = (props) => {
       id: props?.empDetails?.id,
       status: 'rejected'
     }]
-    axios.put("/timesheetActivity", data).then(response => {
+    axios.put("/statusChange", data).then(response => {
       console.log('response:',response);
       setrejectoast(true);
       setTimeout(() => naviagate("/manager"), 1000);
@@ -265,22 +265,7 @@ const TimeSheetEntry = (props) => {
     }
 
     const submitData = () => {
-        const rows = [...timeSheetRows];
-        const empName = localStorage.getItem('employeeName');
-        console.log(empName);
-        const dateRange = localStorage.getItem('dateRange');
-        const dateIndex = localStorage.getItem('selectedDateRangeIndex');
-        if (empName && dateRange) {
-            const empData = { [empName]: { [dateRange]: rows, dateIndex: dateIndex } };
-            localStorage.setItem("empData", JSON.stringify(empData))
-            const employee = {
-                'name': empName,
-                'dateRange': dateRange,
-                'rows': rows
-
-            }
-            console.log('test', employee);
-        }
+      const dateRange = localStorage.getItem('dateRange');     
 
         handleClickOpen();
         setTimeout(() => {
@@ -293,7 +278,7 @@ const TimeSheetEntry = (props) => {
         const totalrows = day1Total + day2Total + day3Total + day4Total + day5Total + day6Total + day7Total
         const data = { name: employeeName, daterange: dateRange, timesheetsRows: timeSheetRows, totalhours: totalrows }
 
-       axios.post('/addEmpTimeSheet', data, {
+       axios.post('/submitTimeSheet', data, {
             headers: headers
         })
             .then((response) => {
