@@ -8,27 +8,16 @@ import MuiAlert from '@mui/material/Alert';
 import axios from 'axios';
 import Button from '@mui/material/Button';
 import Employee from "../Employee/Employee";
-import DateRange from '../Employee/DateRange.json';
-import { useState, useEffect } from 'react';
+
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 const Details = () => {  
   localStorage.setItem("role", 'manager');
   const naviagate = useNavigate();
-  const BacktoManagerApprove = () => {
-    settoastOpen(true);
-    setTimeout(() => naviagate("/manager"), 1000);
-  }  
-  const BacktoManagerRejected = () => {
-    setrejectoast(true);
-    setTimeout(() => naviagate("/manager"), 1000);
-
-  }
-
+  
  
-  const BacktoManager = () => {
-    
+  const BacktoManager = () => {    
     naviagate("/manager")
 
   }

@@ -157,21 +157,6 @@ const Manager = () => {
          console.log(error)
       })
   }, [count]);
-  const createEmployeeData = (data) => {
-    const empName = localStorage.getItem('employeeName');
-    console.log(empName);
-    const dateRange = localStorage.getItem('dateRange');
-    const dateIndex = localStorage.getItem('selectedDateRangeIndex');
-    if (empName && dateRange) {
-      const empData = { [empName]: { [dateRange]: data, dateIndex: dateIndex } };
-      let oldArray = [];
-      oldArray.push(empData);
-
-      localStorage.setItem('EmployeesData', [...oldArray])
-
-    }
-
-  }
   const checkItems = async (event, row, index) => {
     console.log(event.target.checked);
     if (event.target.checked) {
@@ -200,9 +185,6 @@ const Manager = () => {
       <div className="wrapper" role="group" aria-label="Time Sheet Actions">
         <div className="align-header">
           <input type="text" value={selectedDates} disabled aria-label="Selected Dates" role='textbox'/>
-          {/* <select disabled className="select" value={selectedDates}>
-            <option value="">{selectedDates}</option>
-          </select> */}
         </div>
         <div className="align-buttons">
           <div>

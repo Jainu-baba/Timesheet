@@ -182,12 +182,8 @@ const TimeSheetEntry = (props) => {
         console.log(rows);
     }
     const deleteTableRow = (index) => {
-        console.log('index:', index);
-
         const rows = [...timeSheetRows];
         rows.splice(index, 1);
-
-
         setDay1Total(rows.reduce((total, row) => total + parseInt(row['day1']), 0));
         setDay2Total(rows.reduce((total, row) => total + parseInt(row['day2']), 0));
         setDay3Total(rows.reduce((total, row) => total + parseInt(row['day3']), 0));
@@ -195,9 +191,6 @@ const TimeSheetEntry = (props) => {
         setDay5Total(rows.reduce((total, row) => total + parseInt(row['day5']), 0));
         setDay6Total(rows.reduce((total, row) => total + parseInt(row['day6']), 0));
         setDay7Total(rows.reduce((total, row) => total + parseInt(row['day7']), 0));
-
-
-
         setTimeSheetRows([...rows]);
     };
 
@@ -226,14 +219,10 @@ const TimeSheetEntry = (props) => {
         );
 
     }
-    const changeTimeSheetData = async (key, index, value) => {
-        console.log('key:', key, 'index:', index, 'value:', value);
+    const changeTimeSheetData = async (key, index, value) => {       
         const rows = [...timeSheetRows];
         rows[index][key] = value;
-        console.log('das:', document.getElementById(`auto_suggestion_${index}`));
-
-
-        if (key === 'projects') {
+            if (key === 'projects') {
             let suggestions = [];
             if (value.length > 0) {
                 const regex = new RegExp(`^${value}`, 'i');
@@ -264,7 +253,6 @@ const TimeSheetEntry = (props) => {
         setDay5Total(rows.reduce((total, row) => total + parseInt(row['day5']), 0));
         setDay6Total(rows.reduce((total, row) => total + parseInt(row['day6']), 0));
         setDay7Total(rows.reduce((total, row) => total + parseInt(row['day7']), 0));
-
         setTimeSheetRows([...rows]);
         
     }
@@ -284,7 +272,6 @@ const TimeSheetEntry = (props) => {
         const dateIndex = localStorage.getItem('selectedDateRangeIndex');
         if (empName && dateRange) {
             const empData = { [empName]: { [dateRange]: rows, dateIndex: dateIndex } };
-
             localStorage.setItem("empData", JSON.stringify(empData))
             const employee = {
                 'name': empName,
@@ -299,9 +286,6 @@ const TimeSheetEntry = (props) => {
         setTimeout(() => {
             handleClose();
         }, 2000);
-
-
-
         const headers = {
             'Content-Type': 'application/json'
 
@@ -309,9 +293,7 @@ const TimeSheetEntry = (props) => {
         const totalrows = day1Total + day2Total + day3Total + day4Total + day5Total + day6Total + day7Total
         const data = { name: employeeName, daterange: dateRange, timesheetsRows: timeSheetRows, totalhours: totalrows }
 
-
-
-        axios.post('/addEmpTimeSheet', data, {
+       axios.post('/addEmpTimeSheet', data, {
             headers: headers
         })
             .then((response) => {
@@ -363,13 +345,7 @@ const TimeSheetEntry = (props) => {
                             ))}
                         </select>
                     </div>}
-                        {/* <select className={role !== 'manager' ? 'employee-name' : 'employee-name disabled'} value={selectedDate} onChange={handleDropdownChange}>
-                            {dateRanges.map((range, index) => (
-                                <option key={index} value={index}>
-                                    {range.fromDate} - {range.toDate}
-                                </option>
-                            ))}
-                        </select> */}
+                       
                     </div>
                     {role !== 'manager' && <button class="btn btn-primary" onClick={submitData} disabled={!(employeeName && timeSheetRows[0].projectCode.length > 0 && timeSheetRows[0].jobCode.length > 0) ? 'true' : ''} className='timesheet-button' aria-label="Submit Timesheet" tabIndex={0} role='button'>Submit</button>}
                     {role === 'manager' && <Stack direction="row" spacing={2}>
