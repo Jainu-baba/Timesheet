@@ -129,13 +129,13 @@ const Manager = () => {
 
       const checkedRows = selectedRows.map(e => {e.status = "rejected"; return e});
       axios.put("/timesheetActivity", checkedRows).then(response => {
-      console.log('response:',response);
-      settoastOpen(true);
-   
-       
-    }).catch(err => {
-      console.log('err:',err);
-    })
+        console.log('response:',response);
+        settoastOpen(true);
+        setrowsData(response.data);
+       // setTimeout(() => naviagate("/manager"), 1000);
+      }).catch(err => {
+        console.log('err:',err);
+      })
 
   }
   var vertical = "top";
@@ -226,7 +226,7 @@ const Manager = () => {
               </tr>
             </thead>
             <tbody id="table-body">
-              {rowsData && rowsData.length > 0 ? rowsData.map((row, index) => {
+              {rowsData && rowsData.length > 0 ? rowsData.filter((e) => e.status === null).map((row, index) => {
                 return (
                   <tr>
                     <td className='col-md-1'>
