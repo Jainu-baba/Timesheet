@@ -59,7 +59,7 @@ export default function Employee(props) {
      let id=window.location.pathname.split('/')[3];
      console.log('id',id);
 
-     axios.get('http://localhost:3001/getdata')
+     axios.get('/getdata')
      .then((response) => {
        console.log(response.data);
        let filteredArray = response.data.filter(e => e.id == Number(id));
@@ -68,23 +68,12 @@ export default function Employee(props) {
        .catch((error) => {
           console.log(error)
        })
-
-    //   axios.get(`http://localhost:3001/getEmpDetails?id=${id}`)
-    //  .then((response) => {
-    //    console.log(response.data)
-    //    setempDetails(response.data)
-    //    })
-    //    .catch((error) => {
-    //       console.log(error)
-    //    })
-
     }
     
   },[])
 
   return (
-    <div className='time-sheet-box'>
-      {/* <TimeSheet /> */}
+    <div className='time-sheet-box'>    
       <TimeSheetEntry empDetails={empDetails} name={window.location.pathname.split('/')[2]} tabIndex={0} aria-label="Time Sheet Entry"/>
       
     </div>

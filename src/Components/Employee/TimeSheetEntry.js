@@ -266,22 +266,7 @@ const TimeSheetEntry = (props) => {
         setDay7Total(rows.reduce((total, row) => total + parseInt(row['day7']), 0));
 
         setTimeSheetRows([...rows]);
-        const empName = localStorage.getItem('employeeName');
-        console.log(empName);
-        const dateRange = localStorage.getItem('dateRange');
-        const dateIndex = localStorage.getItem('selectedDateRangeIndex');
-        if (empName && dateRange) {
-            const empData = { [empName]: { [dateRange]: rows, dateIndex: dateIndex } };
-
-            localStorage.setItem("empData", JSON.stringify(empData))
-            const employee = {
-                'name': empName,
-                'dateRange': dateRange,
-                'rows': rows
-
-            }
-            console.log('test', employee);
-        }
+        
     }
 
     const getJobCodes = (projectCode) => {

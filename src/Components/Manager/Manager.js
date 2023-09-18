@@ -99,6 +99,8 @@ const Manager = () => {
   }
   const [selectedRows, setSelectedRows] = React.useState([]);
   const [rowsData, setrowsData] = React.useState(rows);
+  
+  const [count, setcount] = React.useState(0);
   const [toastOpen, settoastOpen] = React.useState(false);
   const [rejectoast, setrejectoast] = React.useState(false);
   const [disableButtons, setdisableButtons] = React.useState(true);
@@ -118,6 +120,7 @@ const Manager = () => {
     console.log('response:',response);
     settoastOpen(true);
     setrowsData(response.data);
+    setcount(count => count + 1);
    // setTimeout(() => naviagate("/manager"), 1000);
   }).catch(err => {
     console.log('err:',err);
@@ -132,6 +135,7 @@ const Manager = () => {
         console.log('response:',response);
         settoastOpen(true);
         setrowsData(response.data);
+        setcount(count => count + 1);
        // setTimeout(() => naviagate("/manager"), 1000);
       }).catch(err => {
         console.log('err:',err);
@@ -152,7 +156,7 @@ const Manager = () => {
       .catch((error) => {
          console.log(error)
       })
-  }, []);
+  }, [count]);
   const createEmployeeData = (data) => {
     const empName = localStorage.getItem('employeeName');
     console.log(empName);
