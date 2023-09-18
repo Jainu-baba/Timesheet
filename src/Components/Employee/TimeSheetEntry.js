@@ -67,7 +67,7 @@ const TimeSheetEntry = (props) => {
       id: props?.empDetails?.id,
       status: 'approve'
     }]
-    axios.put("http://localhost:3001/timesheetActivity", data).then(response => {
+    axios.put("/timesheetActivity", data).then(response => {
       console.log('response:',response);
       settoastOpen(true);
       setTimeout(() => naviagate("/manager"), 1000);
@@ -88,7 +88,7 @@ const TimeSheetEntry = (props) => {
       id: props?.empDetails?.id,
       status: 'rejected'
     }]
-    axios.put("http://localhost:3001/timesheetActivity", data).then(response => {
+    axios.put("/timesheetActivity", data).then(response => {
       console.log('response:',response);
       setrejectoast(true);
       setTimeout(() => naviagate("/manager"), 1000);
@@ -381,7 +381,7 @@ const TimeSheetEntry = (props) => {
 
 
 
-        axios.post('http://localhost:3001/addEmpTimeSheet', data, {
+        axios.post('/addEmpTimeSheet', data, {
             headers: headers
         })
             .then((response) => {

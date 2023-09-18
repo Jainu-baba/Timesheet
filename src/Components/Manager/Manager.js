@@ -115,7 +115,7 @@ const Manager = () => {
   };
   const apply = () => {
     const checkedRows = selectedRows.map(e => {e.status = "approve"; return e});
-    axios.put("http://localhost:3001/timesheetActivity", checkedRows).then(response => {
+    axios.put("/timesheetActivity", checkedRows).then(response => {
     console.log('response:',response);
     settoastOpen(true);
     setrowsData(response.data);
@@ -126,30 +126,13 @@ const Manager = () => {
   }
 
   const reject = () => {
-    // const arr1 = rowsData.map(e => e.id);
-    // const arr2 = selectedRows.map(e => e.id);
-    // let unique1 = arr1.filter((o) => arr2.indexOf(o) === -1);
-    // let unique2 = arr2.filter((o) => arr1.indexOf(o) === -1);
-    // const unique = unique1.concat(unique2);
-    // let finalData = rowsData.filter((o) => unique.includes(o.id));
-    // createEmployeeData(finalData);
-    // setrowsData(finalData);
+    
 
       const checkedRows = selectedRows.map(e => {e.status = "rejected"; return e});
-      axios.put("http://localhost:3001/timesheetActivity", checkedRows).then(response => {
+      axios.put("/timesheetActivity", checkedRows).then(response => {
       console.log('response:',response);
       settoastOpen(true);
-     // setrowsData(response.data);
-      // axios.get('http://localhost:3001/getdata')
-      // .then((response) => {
-      //   console.log(response.data)
-      //   setselectedDates(response.data[0]?.daterange);
-      //   setrowsData(response.data)
-      //   })
-      //   .catch((error) => {
-      //      console.log(error)
-      //   })
-
+   
        
     }).catch(err => {
       console.log('err:',err);
@@ -160,25 +143,8 @@ const Manager = () => {
   var horizontal = "center";
   useEffect(() => {
 
-    // const data = JSON.parse(localStorage.getItem('EmployeesData'));
-    // data && data.forEach((e, i) => {
-    //   let strinfy = JSON.parse(e);
-    //   setselectedDates(Object.keys(Object.values(strinfy)[0])[0]);
-    //   let arrayData = Object.values(Object.values(strinfy)[0]);
-    //   let rowsArray = arrayData[0].map((obj, index) => { obj["id"] = index; obj["empName"] = Object.keys(strinfy)[0]; return obj });
-    //   if (localStorage.getItem("approved") === "true") {
-    //     let removeItem = localStorage.getItem("details");
 
-    //     let sorted = rowsArray.filter((e, i) => e.id !== Number(removeItem));
-    //     createEmployeeData(sorted);
-    //     setrowsData([...sorted]);
-    //   } else {
-    //     setrowsData([...rowsArray]);
-    //   }
-
-    // })
-
-    axios.get('http://localhost:3001/getdata')
+    axios.get('/getdata')
     .then((response) => {
       console.log(response.data)
       setselectedDates(response.data[0]?.daterange);
