@@ -130,8 +130,8 @@ const Manager = () => {
   const reject = () => {
       const checkedRows = selectedRows.map(e => {e.status = "rejected"; return e});
       axios.put("/statusChange", checkedRows).then(response => {
-        console.log('response:',response);
-        settoastOpen(true);
+        //console.log('response:',response);
+        setrejectoast(true);
         setrowsData(response.data);
         setcount(count => count + 1);
        // setTimeout(() => naviagate("/manager"), 1000);
