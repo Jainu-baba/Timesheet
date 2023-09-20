@@ -99,7 +99,8 @@ const Manager = () => {
   }
   const [selectedRows, setSelectedRows] = React.useState([]);
   const [rowsData, setrowsData] = React.useState(rows);
-  
+  const [totalResp, settotalResp] = React.useState(rows);
+  const [datesArray, setdatesArray] = React.useState([]);
   const [count, setcount] = React.useState(0);
   const [toastOpen, settoastOpen] = React.useState(false);
   const [rejectoast, setrejectoast] = React.useState(false);
@@ -147,13 +148,22 @@ const Manager = () => {
 
     axios.get('/getdata')
     .then((response) => {
-      console.log(response.data)
+     // console.log(response.data);
+      settotalResp([...response.data]);
+      const unique = [...new Map(response.data.map(item => [item["daterange"], item])).values()];
+      setdatesArray(unique);
+     
       setselectedDates(response.data[0]?.daterange);
-      setrowsData(response.data)
+    //  setrowsData(response.data);
+    handleDropdownChange(response.data[0]?.daterange, response.data);
+     
       })
       .catch((error) => {
          console.log(error)
-      })
+      });
+      
+    //  setselectedDates(response.data[0]?.daterange);
+
   }, [count]);
   const checkItems = async (event, row, index) => {
     console.log(event.target.checked);
@@ -165,6 +175,12 @@ const Manager = () => {
 
     }
 
+  }
+  const handleDropdownChange = (e, resdata) => {
+   // console.log("rowsData", rowsData);
+let filteredData = resdata.filter((data) => data.daterange === e);
+setrowsData(filteredData);
+//console.log("filteredData", filteredData);
   }
   return (
 
@@ -182,7 +198,14 @@ const Manager = () => {
 
       <div className="wrapper" role="group" aria-label="Time Sheet Actions">
         <div className="align-header">
-          <input type="text" value={selectedDates} disabled aria-label="Selected Dates" role='textbox'/>
+        <select  onChange={(e) => handleDropdownChange(e.target.value, totalResp)} aria-label="Select Date Range">
+                            {datesArray.map((range, index) => (
+                                <option key={index} value={range.daterange}>
+                                    {range.daterange}
+                                </option>
+                            ))}
+                        </select>
+         
         </div>
         <div className="align-buttons">
           <div>
