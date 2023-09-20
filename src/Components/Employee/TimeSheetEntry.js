@@ -309,8 +309,8 @@ const TimeSheetEntry = (props) => {
             </Snackbar>
             <div class="container mt-4">
                 <div class="employee-select">
-                    {window.location.href.includes("manager") && <input type='text' value={employeeName} disabled aria-label="Employee Name" role="textbox" />}
-                    {window.location.href.includes("employee") && <select className={window.location.href.includes("employee") ? 'employee-name' : 'employee-name disabled'} value={employeeName} onChange={(event) => handleEmployee(event.target.value)} aria-label="Employee Name" tabIndex={0} role='select box'>
+                    {window.location.href.includes("manager") || window.location.href.includes("details") && <input type='text' value={employeeName} disabled aria-label="Employee Name" role="textbox" />}
+                    {window.location.href.includes("employee")  && <select className={(window.location.href.includes("employee") || window.location.href.includes("details")) ? 'employee-name' : 'employee-name disabled'} value={employeeName} onChange={(event) => handleEmployee(event.target.value)} aria-label="Employee Name" tabIndex={0} role='select box'>
                         <option>Employee Name</option>
                         <option>Bhargavi</option>
                         <option>Karthik</option>
@@ -320,8 +320,8 @@ const TimeSheetEntry = (props) => {
                     </select>}
 
                     <div className='col-md-7'>
-                    {window.location.href.includes("manager") && <input type="text" value={selectedDateRange} aria-label="Selected Date Range" role="textbox"/> }
-                    {window.location.href.includes("employee") && <div className='col-md-7'>
+                    {window.location.href.includes("manager") || window.location.href.includes("details") && <input type="text" disabled value={selectedDateRange} aria-label="Selected Date Range" role="textbox"/> }
+                    {window.location.href.includes("employee")  && <div className='col-md-7'>
                         <select className={window.location.href.includes("employee") ? 'employee-name' : 'employee-name disabled'} value={selectedDate} onChange={handleDropdownChange} aria-label="Select Date Range" tabIndex={0}>
                             {dateRanges.map((range, index) => (
                                 <option key={index} value={index}>
@@ -333,7 +333,7 @@ const TimeSheetEntry = (props) => {
                        
                     </div>
                     {window.location.href.includes("employee") && <button class="btn btn-primary" onClick={submitData} disabled={!(employeeName && timeSheetRows[0].projectCode.length > 0 && timeSheetRows[0].jobCode.length > 0) ? 'true' : ''} className='timesheet-button' aria-label="Submit Timesheet" tabIndex={0} role='button'>Submit</button>}
-                    {window.location.href.includes("manager") && <Stack direction="row" spacing={2}>
+                    {window.location.href.includes("manager") || window.location.href.includes("details") && <Stack direction="row" spacing={2}>
                         <Button variant="contained" color="success" onClick={(e) => BacktoManagerApprove()}  aria-label="Approve Timesheet" role='button' tabIndex={0}>Approve</Button>
                         <Button variant="contained" color="error" onClick={(e) => BacktoManagerRejected()}  aria-label="Reject Timesheet" role='button' tabIndex={0}>Reject</Button>
                     </Stack>}
@@ -359,8 +359,8 @@ const TimeSheetEntry = (props) => {
                                         <div className="container">
                                             <div className="row justify-content-md-center">
                                                 <div className="col-md-12 input">
-                                                    {window.location.href.includes("manager") && <input type="text" disabled value={row.projectCode} role="textbox" aria-label={`Project Code for Row ${index + 1}`}/>}
-                                                    {window.location.href.includes("employee") &&
+                                                    {window.location.href.includes("manager") || window.location.href.includes("details") && <input type="text" disabled value={row.projectCode} role="textbox" aria-label={`Project Code for Row ${index + 1}`}/>}
+                                                    {window.location.href.includes("employee")  &&
                                                         <Select
                                                             defaultValue={currentpojectCode}
                                                             value={{ value: row.projectCode, label: row.projectCode }}
@@ -381,7 +381,7 @@ const TimeSheetEntry = (props) => {
                                         <div className="container">
                                             <div className="row justify-content-md-center">
                                                 <div className="col-md-12 input">
-                                                    {window.location.href.includes("manager") && <input typ="text" value={row.jobCode} disabled style={{ height: "35px" }} role="textbox" aria-label={`Job Code for Row ${index + 1}`}/>}
+                                                    {window.location.href.includes("manager") || window.location.href.includes("details") && <input typ="text" value={row.jobCode} disabled style={{ height: "35px" }} role="textbox" aria-label={`Job Code for Row ${index + 1}`}/>}
                                                     {window.location.href.includes("employee") &&
                                                         <Select
                                                             defaultValue={currentjobCode}
@@ -400,13 +400,13 @@ const TimeSheetEntry = (props) => {
                                             </div>
                                         </div>
                                     </td>
-                                    <td className="col-md-1"><input type="text" className="form-control text-center" value={row.day1} onChange={(event) => changeTimeSheetData('day1', index, Math.min(event.target.value, 16))} aria-label={`Day 1 for Row ${index + 1}`} role="textbox" tabIndex={0}/></td>
-                                    <td className="col-md-1"><input type="text" className="form-control text-center" value={row.day2} onChange={(event) => changeTimeSheetData('day2', index, Math.min(event.target.value, 16))} aria-label={`Day 2 for Row ${index + 1}`} role="textbox" tabIndex={0}/></td>
-                                    <td className="col-md-1"><input type="text" className="form-control text-center" value={row.day3} onChange={(event) => changeTimeSheetData('day3', index, Math.min(event.target.value, 16))} aria-label={`Day 3 for Row ${index + 1}`} role="textbox" tabIndex={0}/></td>
-                                    <td className="col-md-1"><input type="text" className="form-control text-center" value={row.day4} onChange={(event) => changeTimeSheetData('day4', index, Math.min(event.target.value, 16))} aria-label={`Day 4 for Row ${index + 1}`} role="textbox" tabIndex={0}/></td>
-                                    <td className="col-md-1"><input type="text" className="form-control text-center" value={row.day5} onChange={(event) => changeTimeSheetData('day5', index, Math.min(event.target.value, 16))} aria-label={`Day 5 for Row ${index + 1}`} role="textbox" tabIndex={0}/></td>
-                                    <td className="col-md-1"><input type="text" className="form-control text-center" value={row.day6} onChange={(event) => changeTimeSheetData('day6', index, Math.min(event.target.value, 16))} aria-label={`Day 6 for Row ${index + 1}`} role="textbox" tabIndex={0}/></td>
-                                    <td className="col-md-1"><input type="text" className="form-control text-center" value={row.day7} onChange={(event) => changeTimeSheetData('day7', index, Math.min(event.target.value, 16))} aria-label={`Day 7 for Row ${index + 1}`} role="textbox" tabIndex={0}/></td>
+                                    <td className="col-md-1"><input type="text" disabled={window.location.href.includes("details")} className="form-control text-center" value={row.day1} onChange={(event) => changeTimeSheetData('day1', index, Math.min(event.target.value, 16))} aria-label={`Day 1 for Row ${index + 1}`} role="textbox" tabIndex={0}/></td>
+                                    <td className="col-md-1"><input type="text" disabled={window.location.href.includes("details")} className="form-control text-center" value={row.day2} onChange={(event) => changeTimeSheetData('day2', index, Math.min(event.target.value, 16))} aria-label={`Day 2 for Row ${index + 1}`} role="textbox" tabIndex={0}/></td>
+                                    <td className="col-md-1"><input type="text" disabled={window.location.href.includes("details")} className="form-control text-center" value={row.day3} onChange={(event) => changeTimeSheetData('day3', index, Math.min(event.target.value, 16))} aria-label={`Day 3 for Row ${index + 1}`} role="textbox" tabIndex={0}/></td>
+                                    <td className="col-md-1"><input type="text" disabled={window.location.href.includes("details")} className="form-control text-center" value={row.day4} onChange={(event) => changeTimeSheetData('day4', index, Math.min(event.target.value, 16))} aria-label={`Day 4 for Row ${index + 1}`} role="textbox" tabIndex={0}/></td>
+                                    <td className="col-md-1"><input type="text" disabled={window.location.href.includes("details")} className="form-control text-center" value={row.day5} onChange={(event) => changeTimeSheetData('day5', index, Math.min(event.target.value, 16))} aria-label={`Day 5 for Row ${index + 1}`} role="textbox" tabIndex={0}/></td>
+                                    <td className="col-md-1"><input type="text" disabled={window.location.href.includes("details")} className="form-control text-center" value={row.day6} onChange={(event) => changeTimeSheetData('day6', index, Math.min(event.target.value, 16))} aria-label={`Day 6 for Row ${index + 1}`} role="textbox" tabIndex={0}/></td>
+                                    <td className="col-md-1"><input type="text" disabled={window.location.href.includes("details")} className="form-control text-center" value={row.day7} onChange={(event) => changeTimeSheetData('day7', index, Math.min(event.target.value, 16))} aria-label={`Day 7 for Row ${index + 1}`} role="textbox" tabIndex={0}/></td>
 
                                     {window.location.href.includes("employee") &&
                                         <td className="col-md-auto">
@@ -434,7 +434,7 @@ const TimeSheetEntry = (props) => {
                             {window.location.href.includes("employee") && <td className='col-md-1'></td>} 
                             <td className='col-md-1' aria-label="Total for the week"><p>{day1Total + day2Total + day3Total + day4Total + day5Total + day6Total + day7Total}</p></td>
                         </tr>
-                            <td> {window.location.href.includes("manager")  && <input type="text" value={comments} onChange={(e) => setComments(e.target.value)} placeholder='comments' style={{ marginTop: '20px', width: '400%', height: '50px', border: '1px solid #D6EAF8' }} aria-label="Comments" tabIndex={0}/>}</td>
+                            <td> {window.location.href.includes("manager")  || window.location.href.includes("details") && <input type="text" value={comments} onChange={(e) => setComments(e.target.value)} placeholder='comments' style={{ marginTop: '20px', width: '400%', height: '50px', border: '1px solid #D6EAF8' }} aria-label="Comments" tabIndex={0}/>}</td>
                     </tbody>
                 </table>
 
