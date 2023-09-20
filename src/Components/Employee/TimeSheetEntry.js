@@ -239,10 +239,13 @@ const TimeSheetEntry = (props) => {
         if (key === 'projectCode') {
             getJobCodes(value);
         } else if (key !== 'projectCode' && key !== 'jobCode' && key !== 'total') {
-            const oldValue = parseInt(rows[index][key]);
-            console.log('oldValue', oldValue);
-
-            console.log('total:', Math.min(parseInt(rows[index]['day1']), 16) + Math.min(parseInt(rows[index]['day2']), 16) + Math.min(parseInt(rows[index]['day3']), 16) + Math.min(parseInt(rows[index]['day4']), 16) + Math.min(parseInt(rows[index]['day5']), 16) + Math.min(parseInt(rows[index]['day6']), 16) + Math.min(parseInt(rows[index]['day7']), 16))
+            const inputText = rows[index][key];
+            const parsedValue = parseInt(inputText);
+            if (!isNaN(parsedValue)) {              
+                rows[index][key] = parsedValue;
+            } else {              
+                rows[index][key] = 0;
+            }          
             rows[index]['total'] = Math.min(parseInt(rows[index]['day1']), 16) + Math.min(parseInt(rows[index]['day2']), 16) + Math.min(parseInt(rows[index]['day3']), 16) + Math.min(parseInt(rows[index]['day4']), 16) + Math.min(parseInt(rows[index]['day5']), 16) + Math.min(parseInt(rows[index]['day6']), 16) + Math.min(parseInt(rows[index]['day7']), 16);
         }
 
