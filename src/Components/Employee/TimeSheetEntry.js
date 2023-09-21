@@ -6,6 +6,7 @@ import Snackbar from '@mui/material/Snackbar';
 import { useNavigate } from "react-router-dom";
 import DateRange from './DateRange.json';
 import axios from 'axios';
+import CalendarMonthIcon  from '@mui/icons-material/CalendarMonth';
 import projectData from "../../mock-data/project-codes.json";
 import jobData from "../../mock-data/job-codes.json";
 import Select from 'react-select';
@@ -111,7 +112,15 @@ const TimeSheetEntry = (props) => {
         setrejectoast(false);
     };
     
-
+    const handleComments = (e) => {
+        const inputValue = e.target.value;
+        if (inputValue.length <= 250) {
+            setComments(inputValue);
+        } else {
+    
+            setComments(inputValue.slice(0, 250));
+        }
+    }
 
     useEffect(() => {
         setEmployees(['Bhargavi',
@@ -171,6 +180,31 @@ const TimeSheetEntry = (props) => {
         localStorage.setItem('selectedDateRangeIndex', selectedIndex);
         empData = { [edata]: [] };
         localStorage.setItem(empName, JSON.stringify(empData));
+        const dateRangeData = timeSheetRows[empName];
+        if (dateRangeData && dateRangeData[edata]) {
+            const rowsForSelectedRange = dateRangeData[edata];
+            setTimeSheetRows(rowsForSelectedRange);
+            setEmployeeName(empName);
+            setDay1Total(day1Total);
+            setDay2Total(day2Total);
+            setDay3Total(day3Total);
+            setDay4Total(day4Total);
+            setDay5Total(day5Total);
+            setDay6Total(day6Total);
+            setDay7Total(day7Total);
+
+        } else {
+            // No data found, initialize with empty rows
+            setTimeSheetRows([{ projectCode: '', jobCode: '', day1: 0, day2: 0, day3: 0, day4: 0, day5: 0, day6: 0, day7: 0, total: 0 }]);
+         
+            setDay1Total(0);
+            setDay2Total(0);
+            setDay3Total(0);
+            setDay4Total(0);
+            setDay5Total(0);
+            setDay6Total(0);
+            setDay7Total(0);
+        }
 
     };
 
@@ -325,6 +359,7 @@ const TimeSheetEntry = (props) => {
                     <div className='col-md-7'>
                     {window.location.href.includes("manager") || window.location.href.includes("details") && <input type="text" disabled value={selectedDateRange} aria-label="Selected Date Range" role="textbox"/> }
                     {window.location.href.includes("employee")  && <div className='col-md-7'>
+                    <div className="select-container">
                         <select className={window.location.href.includes("employee") ? 'employee-name' : 'employee-name disabled'} value={selectedDate} onChange={handleDropdownChange} aria-label="Select Date Range" tabIndex={0}>
                             {dateRanges.map((range, index) => (
                                 <option key={index} value={index}>
@@ -332,6 +367,10 @@ const TimeSheetEntry = (props) => {
                                 </option>
                             ))}
                         </select>
+                        </div>
+                        <div className="calendar-icon">
+                                    <CalendarMonthIcon />
+                                </div>
                     </div>}
                        
                     </div>
@@ -437,7 +476,7 @@ const TimeSheetEntry = (props) => {
                             {window.location.href.includes("employee") && <td className='col-md-1'></td>} 
                             <td className='col-md-1' aria-label="Total for the week"><p>{day1Total + day2Total + day3Total + day4Total + day5Total + day6Total + day7Total}</p></td>
                         </tr>
-                            <td> {window.location.href.includes("manager")  || window.location.href.includes("details") && <input type="text" value={comments} onChange={(e) => setComments(e.target.value)} placeholder='comments' style={{ marginTop: '20px', width: '400%', height: '50px', border: '1px solid #D6EAF8' }} aria-label="Comments" tabIndex={0}/>}</td>
+                            <td> {window.location.href.includes("manager")  || window.location.href.includes("details") && <input type="text" value={comments} onChange={(e) => handleComments(e)} placeholder='comments' style={{ marginTop: '20px', width: '400%', height: '50px', border: '1px solid #D6EAF8' }} aria-label="Comments" tabIndex={0}/>}</td>
                     </tbody>
                 </table>
 

@@ -153,6 +153,18 @@
     text-align: center;
     height:17px; */
 }
+.calendar-icon {
+
+  position: absolute;
+    top: 1.4%;
+    right: 59%;
+  pointer-events: none; 
+}
+.select-container {
+  position: relative;
+  display: inline-block;
+}
+
 
 .entry-value{
     vertical-align: middle;
