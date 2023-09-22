@@ -60,6 +60,7 @@ const TimeSheetEntry = (props) => {
             'Karthik',
             'Rakesh']);
     const [employee, setEmployee] = useState('');
+    const [response, setresponse] = useState([]);
     const [selectedDateRange, setselectedDateRange] = useState("");
 
     const BacktoManagerApprove = () => {
@@ -158,6 +159,17 @@ const TimeSheetEntry = (props) => {
     useEffect(() => {
         setEmployeeName(props.name);
     }, [props?.name]);
+    useEffect(() => {
+        axios.get('/getdata')
+        .then((response) => {
+            console.log(response);
+          setresponse(response.data);
+         
+          })
+          .catch((error) => {
+             console.log(error)
+          });
+    }, [])
 
     const handleEmployee = (empName) => {
         setEmployeeName(empName);
@@ -180,23 +192,14 @@ const TimeSheetEntry = (props) => {
         localStorage.setItem('selectedDateRangeIndex', selectedIndex);
         empData = { [edata]: [] };
         localStorage.setItem(empName, JSON.stringify(empData));
-        const dateRangeData = timeSheetRows[empName];
-        if (dateRangeData && dateRangeData[edata]) {
-            const rowsForSelectedRange = dateRangeData[edata];
-            setTimeSheetRows(rowsForSelectedRange);
-            setEmployeeName(empName);
-            setDay1Total(day1Total);
-            setDay2Total(day2Total);
-            setDay3Total(day3Total);
-            setDay4Total(day4Total);
-            setDay5Total(day5Total);
-            setDay6Total(day6Total);
-            setDay7Total(day7Total);
-
-        } else {
-            // No data found, initialize with empty rows
-            setTimeSheetRows([{ projectCode: '', jobCode: '', day1: 0, day2: 0, day3: 0, day4: 0, day5: 0, day6: 0, day7: 0, total: 0 }]);
-         
+        const dateRangeData = timeSheetRows[empName];        
+        let rejectedData = response.filter((e) => e.name === empName && e.daterange === edata && e.status === "rejected");
+       
+        if(rejectedData && rejectedData.length) {
+            setTimeSheetRows(rejectedData);
+        }
+        else {
+              setTimeSheetRows([{ projectCode: '', jobCode: '', day1: 0, day2: 0, day3: 0, day4: 0, day5: 0, day6: 0, day7: 0, total: 0 }]);         
             setDay1Total(0);
             setDay2Total(0);
             setDay3Total(0);
@@ -303,7 +306,7 @@ const TimeSheetEntry = (props) => {
 
     const submitData = () => {
       const dateRange = localStorage.getItem('dateRange');     
-
+     let subTimesheet =  timeSheetRows.map(e => { e.status = null; return e});
         handleClickOpen();
         setTimeout(() => {
             handleClose();
@@ -313,7 +316,7 @@ const TimeSheetEntry = (props) => {
 
         }
         const totalrows = day1Total + day2Total + day3Total + day4Total + day5Total + day6Total + day7Total
-        const data = { name: employeeName, daterange: dateRange, timesheetsRows: timeSheetRows, totalhours: totalrows }
+        const data = { name: employeeName, daterange: dateRange, timesheetsRows: subTimesheet, totalhours: totalrows }
 
        axios.post('/submitTimeSheet', data, {
             headers: headers

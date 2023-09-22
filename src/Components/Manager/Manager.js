@@ -122,6 +122,9 @@ const Manager = () => {
     settoastOpen(true);
     setrowsData(response.data);
     setcount(count => count + 1);
+    setTimeout(() => {
+      handleClose();
+  }, 2000);
    // setTimeout(() => naviagate("/manager"), 1000);
   }).catch(err => {
     console.log('err:',err);
@@ -135,6 +138,9 @@ const Manager = () => {
         setrejectoast(true);
         setrowsData(response.data);
         setcount(count => count + 1);
+        setTimeout(() => {
+          handleClose();
+      }, 2000);
        // setTimeout(() => naviagate("/manager"), 1000);
       }).catch(err => {
         console.log('err:',err);
@@ -178,6 +184,7 @@ const Manager = () => {
   }
   const handleDropdownChange = (e, resdata) => {
    // console.log("rowsData", rowsData);
+   setselectedDates(e);
 let filteredData = resdata.filter((data) => data.daterange === e);
 setrowsData(filteredData);
 //console.log("filteredData", filteredData);
@@ -198,7 +205,7 @@ setrowsData(filteredData);
 
       <div className="wrapper" role="group" aria-label="Time Sheet Actions">
         <div className="align-header">
-        <select  onChange={(e) => handleDropdownChange(e.target.value, totalResp)} aria-label="Select Date Range">
+        <select value={selectedDates} onChange={(e) => handleDropdownChange(e.target.value, totalResp)} aria-label="Select Date Range">
                             {datesArray.map((range, index) => (
                                 <option key={index} value={range.daterange}>
                                     {range.daterange}
@@ -233,7 +240,7 @@ setrowsData(filteredData);
               </tr>
             </thead>
             <tbody id="table-body">
-              {rowsData && rowsData.length > 0 ? rowsData.filter((e) => e.status === null).map((row, index) => {
+              {rowsData && rowsData.length > 0 && rowsData.filter((e) => e.status === null).length > 0 ? rowsData.filter((e) => e.status === null).map((row, index) => {
                 return (
                   <tr>
                     <td className='col-md-1'>
