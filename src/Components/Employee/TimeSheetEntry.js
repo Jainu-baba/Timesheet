@@ -26,6 +26,7 @@ const TimeSheetEntry = (props) => {
     const [selectedDate, setselectedDate] = React.useState(null);
     const [comments, setComments] = useState('');
     const [open, setOpen] = React.useState(false);
+    const [updateopen, setupdateopen] = React.useState(false);
     const [currentpojectCode, setcurrentpojectCode] = React.useState(null);
     const [currentjobCode, setcurrentjobCode] = React.useState(null);
 
@@ -100,7 +101,9 @@ const TimeSheetEntry = (props) => {
     const handleClickOpen = () => {
         setOpen(true);
     };
-
+    const handleClickupdateOpen = () => {
+        setupdateopen(true);
+    };
     const handleClose = () => {
         setOpen(false);
     };
@@ -307,26 +310,46 @@ const TimeSheetEntry = (props) => {
     const submitData = () => {
       const dateRange = localStorage.getItem('dateRange');     
      let subTimesheet =  timeSheetRows.map(e => { e.status = null; return e});
-        handleClickOpen();
-        setTimeout(() => {
-            handleClose();
-        }, 2000);
+       
+     
         const headers = {
             'Content-Type': 'application/json'
 
         }
         const totalrows = day1Total + day2Total + day3Total + day4Total + day5Total + day6Total + day7Total
         const data = { name: employeeName, daterange: dateRange, timesheetsRows: subTimesheet, totalhours: totalrows }
+        let recordExist = response.filter((e) => e.name === employeeName && e.daterange === dateRange);
+        if(recordExist && recordExist.length){
+            axios.post('/updateTimeSheet', data, {
+                headers: headers
+            })
+                .then((response) => {
+                    handleClickupdateOpen();
+                    setTimeout(() => {
+                        handleClose();
+                    }, 2000);
+                    console.log(response)
+                })
+                .catch((error) => {
+                    console.log(error)
+                })
+        } else {
+            axios.post('/submitTimeSheet', data, {
+                headers: headers
+            })
+                .then((response) => {
+                    handleClickOpen();
+                    setTimeout(() => {
+                        handleClose();
+                    }, 2000);
+                    console.log(response)
+                })
+                .catch((error) => {
+                    console.log(error)
+                })
+        }
 
-       axios.post('/submitTimeSheet', data, {
-            headers: headers
-        })
-            .then((response) => {
-                console.log(response)
-            })
-            .catch((error) => {
-                console.log(error)
-            })
+      
     }
 
 
@@ -345,6 +368,11 @@ const TimeSheetEntry = (props) => {
             <Snackbar anchorOrigin={{ vertical, horizontal }} open={open} autoHideDuration={6000} onClose={handleClose} role="alertdialog" aria-labelledby="timesheet submit-toast-message">
                 <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
                     Timesheet Submitted Successfully
+                </Alert>
+            </Snackbar>
+            <Snackbar anchorOrigin={{ vertical, horizontal }} open={updateopen} autoHideDuration={6000} onClose={handleClose} role="alertdialog" aria-labelledby="timesheet submit-toast-message">
+                <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+                    Timesheet Updated Successfully
                 </Alert>
             </Snackbar>
             <div class="container mt-4">
