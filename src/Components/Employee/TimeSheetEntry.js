@@ -144,6 +144,9 @@ const TimeSheetEntry = (props) => {
 
             console.log('employeeName', props.name);
             // const emp = props.empDetails
+           let rangeIndex =  localStorage.getItem('selectedDateRangeIndex');
+           let sortedDateRange = dateRanges.filter(e => e.date === props?.empDetails.daterange);
+           setSelectedDates(sortedDateRange[0].dates)
             console.log('day1', parseInt(props.empDetails['day1']))
             setTimeSheetRows([props.empDetails])
             setDay1Total(parseInt(props.empDetails['day1']));            
@@ -188,7 +191,7 @@ const TimeSheetEntry = (props) => {
         const selectedIndex = event.target.value;
         setSelectedRange(dateRanges[selectedIndex]);
         setSelectedDates(dateRanges[selectedIndex].dates);
-        const edata = dateRanges[selectedIndex].fromDate + '-' + dateRanges[selectedIndex].toDate;
+        const edata = dateRanges[selectedIndex].date;
         localStorage.setItem('dateRange', edata);
         const empName = localStorage.getItem('employeeName');
         let empData = localStorage.getItem(empName);
@@ -394,7 +397,7 @@ const TimeSheetEntry = (props) => {
                         <select className={window.location.href.includes("employee") ? 'employee-name' : 'employee-name disabled'} value={selectedDate} onChange={handleDropdownChange} aria-label="Select Date Range" tabIndex={0}>
                             {dateRanges.map((range, index) => (
                                 <option key={index} value={index}>
-                                    {range.fromDate} - {range.toDate}
+                                    {range.date}
                                 </option>
                             ))}
                         </select>
