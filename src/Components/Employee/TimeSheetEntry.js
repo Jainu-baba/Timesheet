@@ -199,7 +199,7 @@ const TimeSheetEntry = (props) => {
         empData = { [edata]: [] };
         localStorage.setItem(empName, JSON.stringify(empData));
         const dateRangeData = timeSheetRows[empName];        
-        let rejectedData = response.filter((e) => e.name === empName && e.daterange === edata && e.status === "rejected");
+        let rejectedData = response.filter((e) => e.name === empName && e.daterange === edata && e.status !== null);
        
         if(rejectedData && rejectedData.length) {
             setTimeSheetRows(rejectedData);
@@ -430,7 +430,7 @@ const TimeSheetEntry = (props) => {
                     <tbody id="table-body">
                         {timeSheetRows && timeSheetRows.length > 0 && timeSheetRows.map((row, index) => {
                             return (
-                                <tr>
+                                <tr className={(row.status === "approve") ? "disableRow" : ""} >
                                     <td className='col-md-2'>
                                         <div className="container">
                                             <div className="row justify-content-md-center">
@@ -438,12 +438,12 @@ const TimeSheetEntry = (props) => {
                                                     {window.location.href.includes("manager") || window.location.href.includes("details") && <input type="text" disabled value={row.projectCode} role="textbox" aria-label={`Project Code for Row ${index + 1}`}/>}
                                                     {window.location.href.includes("employee")  &&
                                                         <Select
-                                                            defaultValue={currentpojectCode}
+                                                            
                                                             value={{ value: row.projectCode, label: row.projectCode }}
                                                             options={projectData}
                                                             onChange={(e) => handleProjectCode("projectCode", index, e)}
                                                             aria-label={`Select Project Code for Row ${index + 1}`}
-                                                            tabIndex={0}
+                                                           
                                                             role='select box'
                                                         />
 
@@ -460,13 +460,13 @@ const TimeSheetEntry = (props) => {
                                                     {window.location.href.includes("manager") || window.location.href.includes("details") && <input typ="text" value={row.jobCode} disabled style={{ height: "35px" }} role="textbox" aria-label={`Job Code for Row ${index + 1}`}/>}
                                                     {window.location.href.includes("employee") &&
                                                         <Select
-                                                            defaultValue={currentjobCode}
+                                                          
                                                             value={{ value: row.jobCode, label: row.jobCode }}
 
                                                             options={jobCodes}
                                                             onChange={(e) => handleProjectCode("jobCode", index, e)}
                                                             aria-label={`Select Job Code for Row ${index + 1}`}
-                                                            tabIndex={0}
+                                                            
                                                             role='select box'
                                                         />
                                                     }

@@ -238,3 +238,11 @@
   
     left: 45%;
   }
+  .disableRow {
+     pointer-events:none;
+  
+  opacity: 0.6;
+  cursor: not-allowed;
+  background-color: #666666;
+  color: #666666;
+  }
