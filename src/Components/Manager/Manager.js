@@ -25,14 +25,7 @@ var rows = [
 
 
 
-const trigger = (row, e) => {
-  rows.map(obj => {
-    if (obj.id === row.id) {
-      obj.Comments = e.target.value; return obj
-    }
 
-  });
-}
 
 const Manager = () => {
   localStorage.setItem("role", 'manager');
@@ -97,8 +90,7 @@ const Manager = () => {
     naviagate(`/details/${param.name}/${param.id}`);
 
   }
-  const [selectedRows, setSelectedRows] = React.useState([]);
-  const [rowsData, setrowsData] = React.useState(rows);
+  const [selectedRows, setSelectedRows] = React.useState([]);  
   const [totalResp, settotalResp] = React.useState(rows);
   const [datesArray, setdatesArray] = React.useState([]);
   const [count, setcount] = React.useState(0);
@@ -106,7 +98,7 @@ const Manager = () => {
   const [rejectoast, setrejectoast] = React.useState(false);
   const [disableButtons, setdisableButtons] = React.useState(true);
   const [selectedDates, setselectedDates] = React.useState("");
- 
+  const [rowsData, setrowsData] = React.useState(rows);
 
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
@@ -188,6 +180,23 @@ const Manager = () => {
 let filteredData = resdata.filter((data) => data.daterange === e);
 setrowsData(filteredData);
 //console.log("filteredData", filteredData);
+  }
+  const trigger = (row, e) => {
+    rowsData.map(obj => {
+      if (obj.id === row.id) {
+       
+        if (e.target.value.length <= 250) {
+        
+          obj.Comments = e.target.value; return obj
+        } else {
+        
+          obj.Comments = e.target.value.slice(0, 250); return obj
+            
+        }
+      }
+     // const inputValue = e.target.value;
+     
+    });
   }
   return (
 
