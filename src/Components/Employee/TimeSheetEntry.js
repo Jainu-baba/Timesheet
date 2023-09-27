@@ -321,7 +321,7 @@ const TimeSheetEntry = (props) => {
         }
         const totalrows = day1Total + day2Total + day3Total + day4Total + day5Total + day6Total + day7Total
         const data = { name: employeeName, daterange: dateRange, timesheetsRows: subTimesheet, totalhours: totalrows }
-        let recordExist = response.filter((e) => e.name === employeeName && e.daterange === dateRange);
+        let recordExist = response.filter((e) => e.name === employeeName && e.daterange === dateRange && e.id !== null);
         if(recordExist && recordExist.length){
             axios.post('/updateTimeSheet', data, {
                 headers: headers
