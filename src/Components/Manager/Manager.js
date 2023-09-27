@@ -187,10 +187,10 @@ setrowsData(filteredData);
        
         if (e.target.value.length <= 250) {
         
-          obj.Comments = e.target.value; return obj
+          obj["Comments"] = e.target.value; return obj
         } else {
         
-          obj.Comments = e.target.value.slice(0, 250); return obj
+          obj["Comments"] = e.target.value.slice(0, 250); return obj
             
         }
       }
