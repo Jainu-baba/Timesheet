@@ -40,6 +40,7 @@ const TimeSheetEntry = (props) => {
     const [timeSheetRows, setTimeSheetRows] = useState();
 
     // dayswise column sum
+    const [userHaveData, setUserHaveData] = useState(false);
     const [day1Total, setDay1Total] = useState(0);
     const [day2Total, setDay2Total] = useState(0);
     const [day3Total, setDay3Total] = useState(0);
@@ -170,6 +171,7 @@ const TimeSheetEntry = (props) => {
         .then((response) => {
             console.log(response);
           setresponse(response.data);
+          //setUserHaveData(true);
          
           })
           .catch((error) => {
@@ -200,10 +202,16 @@ const TimeSheetEntry = (props) => {
         localStorage.setItem(empName, JSON.stringify(empData));
         const dateRangeData = timeSheetRows[empName];        
         let rejectedData = response.filter((e) => e.name === empName && e.daterange === edata && e.status !== null);
-       
+       let approvedArray = rejectedData.filter((e) => e.status === "approve");
+       if(approvedArray && approvedArray.length) {
+           
+        setUserHaveData(true);
+    }
         if(rejectedData && rejectedData.length) {
-            setTimeSheetRows(rejectedData);
+            setTimeSheetRows([...rejectedData]);
+            setUserHaveData(true);
         }
+        
         else {
               setTimeSheetRows([{ projectCode: '', jobCode: '', day1: 0, day2: 0, day3: 0, day4: 0, day5: 0, day6: 0, day7: 0, total: 0 }]);         
             setDay1Total(0);
@@ -213,6 +221,7 @@ const TimeSheetEntry = (props) => {
             setDay5Total(0);
             setDay6Total(0);
             setDay7Total(0);
+            setUserHaveData(false);
         }
 
     };
@@ -243,23 +252,38 @@ const TimeSheetEntry = (props) => {
         rows[index][key] = value;
         setTimeSheetRows([...rows]);
     }
+    const enableInput = (row) => {
+        if (window.location.href.includes("details")) {
+            return true;
+        } else {
+            if (row && row.id) {
+                return row.status === 'rejected' ? false : true;
+            }
+            return false;
+        }
+    }
     const handleProjectCode = (code, i, data) => {
-        if (code === "projectCode") {
-            setcurrentpojectCode(data);
-        }
-        if (code === "jobCode") {
-            setcurrentjobCode(data);
-        }
+        // if (code === "projectCode") {
+        //     setcurrentpojectCode(data);
+        // }
+        // if (code === "jobCode") {
+        //     setcurrentjobCode(data);
+        // }
 
-        timeSheetRows.map((obj, index) => {
+     const newItems = timeSheetRows.map((obj, index) => {
             if (index === i) {
                 obj[code] = data.value
                 return obj;
+            }
+            else {
+                return obj; 
             }
 
         }
 
         );
+        setTimeSheetRows(newItems);
+
 
     }
     const changeTimeSheetData = async (key, index, value) => {       
@@ -308,6 +332,24 @@ const TimeSheetEntry = (props) => {
         const jobs = jobData.filter((job) => job.projectCode === projectCode);
         setJobCodes(jobs);
 
+    }
+    const enableSubmitBtn = () => {
+        if (userHaveData) {
+            if (!(employeeName && timeSheetRows)) {
+                return true;
+            } else {
+                console.log('enableSubmitBtn timeSheetRows:', timeSheetRows);
+                const isHave = timeSheetRows.find(ele => ele.status === 'rejected');
+                console.log('isHave', isHave);
+                console.log('object', isHave?.status.length > 0 ? false : true);
+                return isHave?.status.length > 0 ? false : true;
+            }
+        } else {
+            if (!(employeeName && timeSheetRows && timeSheetRows[0].projectCode.length > 0 && timeSheetRows[0].jobCode.length > 0)) {
+                return true;
+            }
+            return false;
+        }
     }
 
     const submitData = () => {
@@ -408,7 +450,7 @@ const TimeSheetEntry = (props) => {
                     </div>}
                        
                     </div>
-                    {window.location.href.includes("employee") && <button class="btn btn-primary" onClick={submitData} disabled={!(employeeName && timeSheetRows[0].projectCode.length > 0 && timeSheetRows[0].jobCode.length > 0) ? 'true' : ''} className='timesheet-button' aria-label="Submit Timesheet" tabIndex={0} role='button'>Submit</button>}
+                    {window.location.href.includes("employee") && <button class="btn btn-primary" onClick={submitData} disabled={enableSubmitBtn() ? 'true' : ''} className='timesheet-button' aria-label="Submit Timesheet" tabIndex={0} role='button'>Submit</button>}
                     {window.location.href.includes("manager") || window.location.href.includes("details") && <Stack direction="row" spacing={2}>
                         <Button variant="contained" color="success" onClick={(e) => BacktoManagerApprove()}  aria-label="Approve Timesheet" role='button' tabIndex={0}>Approve</Button>
                         <Button variant="contained" color="error" onClick={(e) => BacktoManagerRejected()}  aria-label="Reject Timesheet" role='button' tabIndex={0}>Reject</Button>
@@ -438,7 +480,7 @@ const TimeSheetEntry = (props) => {
                                                     {window.location.href.includes("manager") || window.location.href.includes("details") && <input type="text" disabled value={row.projectCode} role="textbox" aria-label={`Project Code for Row ${index + 1}`}/>}
                                                     {window.location.href.includes("employee")  &&
                                                         <Select
-                                                            
+                                                        defaultValue={currentpojectCode}
                                                             value={{ value: row.projectCode, label: row.projectCode }}
                                                             options={projectData}
                                                             onChange={(e) => handleProjectCode("projectCode", index, e)}
@@ -460,7 +502,7 @@ const TimeSheetEntry = (props) => {
                                                     {window.location.href.includes("manager") || window.location.href.includes("details") && <input typ="text" value={row.jobCode} disabled style={{ height: "35px" }} role="textbox" aria-label={`Job Code for Row ${index + 1}`}/>}
                                                     {window.location.href.includes("employee") &&
                                                         <Select
-                                                          
+                                                        defaultValue={currentjobCode}
                                                             value={{ value: row.jobCode, label: row.jobCode }}
 
                                                             options={jobCodes}
@@ -486,11 +528,13 @@ const TimeSheetEntry = (props) => {
 
                                     {window.location.href.includes("employee") &&
                                         <td className="col-md-auto">
-                                            <button class="btn" onClick={() => { deleteTableRow(index) }} aria-label={`Delete Row ${index + 1}`} role="button" tabIndex={0}>
+                                        { !enableInput(row) &&   <button class="btn" onClick={() => { deleteTableRow(index) }} aria-label={`Delete Row ${index + 1}`} role="button" tabIndex={0}>
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
                                                     <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z" />
                                                     <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z" />
-                                                </svg></button></td>}
+                                                </svg></button>}
+                                                
+                                                </td>}
 
                                     <td className="col-md-1" aria-label={`Total for Row ${index + 1}`}  tabIndex={0}>{row.total}</td>
 
@@ -498,7 +542,7 @@ const TimeSheetEntry = (props) => {
                             )
                         })}
                         <tr>
-                            <td className='col-md-2'>{window.location.href.includes("employee") && <button class="btn btn-secondary" id="add-row" onClick={addTableRow} style={{ height: '40px', width: '150px' }} role="button" tabindex="0" aria-label="Add Row">Add Row</button>}</td>
+                            <td className='col-md-2'>{window.location.href.includes("employee") && userHaveData === false && <button class="btn btn-secondary" id="add-row" onClick={addTableRow} style={{ height: '40px', width: '150px' }} role="button" tabindex="0" aria-label="Add Row">Add Row</button>}</td>
                              <td className='col-md-2'></td>  
                             <td className='col-md-1 text-center' aria-label="Total for the day1"><p>{day1Total}</p></td>
                             <td className='col-md-1 text-center' aria-label="Total for the day2"><p>{day2Total}</p></td>
