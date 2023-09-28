@@ -227,7 +227,7 @@ setrowsData(filteredData);
           <div>
             <Stack direction="row" spacing={2}>
               <Button variant="contained" disabled={disableButtons} color="success" onClick={apply} role="button" aria-label="Approve">Approve</Button>
-              <Button variant="contained" disabled={disableButtons} color="error" onClick={reject}  role="button" aria-label="Approve">Reject</Button>
+              <Button variant="contained" disabled={disableButtons} color="error" onClick={reject}  role="button" aria-label="Reject">Reject</Button>
             </Stack>
           </div>
           <div>
@@ -248,7 +248,7 @@ setrowsData(filteredData);
                 <th className='col-md-2' aria-label='Comments'>Comments</th>
               </tr>
             </thead>
-            <tbody id="table-body">
+            <tbody id="table-body" role='row'>
               {rowsData && rowsData.length > 0 && rowsData.filter((e) => e.status === null).length > 0 ? rowsData.filter((e) => e.status === null).map((row, index) => {
                 return (
                   <tr>

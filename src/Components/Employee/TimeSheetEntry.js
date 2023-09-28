@@ -34,8 +34,6 @@ const TimeSheetEntry = (props) => {
     const [text, setText] = useState('');
     const [jobtext, setjobText] = useState('');
 
-    // const [items, setItems] = useState([]);
-
 
     const [timeSheetRows, setTimeSheetRows] = useState();
 
@@ -450,7 +448,7 @@ const TimeSheetEntry = (props) => {
                     </div>}
                        
                     </div>
-                    {window.location.href.includes("employee") && <button class="btn btn-primary" onClick={submitData} disabled={enableSubmitBtn() ? 'true' : ''} className='timesheet-button' aria-label="Submit Timesheet" tabIndex={0} role='button'>Submit</button>}
+                    {window.location.href.includes("employee") && <button class="btn btn-primary" onClick={submitData} disabled={enableSubmitBtn() ? 'true' : ''} className='timesheet-button' aria-label="Submit Timesheet"  tabIndex={0} role='button'>Submit</button>}
                     {window.location.href.includes("manager") || window.location.href.includes("details") && <Stack direction="row" spacing={2}>
                         <Button variant="contained" color="success" onClick={(e) => BacktoManagerApprove()}  aria-label="Approve Timesheet" role='button' tabIndex={0}>Approve</Button>
                         <Button variant="contained" color="error" onClick={(e) => BacktoManagerRejected()}  aria-label="Reject Timesheet" role='button' tabIndex={0}>Reject</Button>
@@ -469,7 +467,7 @@ const TimeSheetEntry = (props) => {
                             <th className='col-md-2' Style={'width:12px;'} scope="col" aria-label='Total'>Total</th>
                         </tr>
                     </thead>
-                    <tbody id="table-body">
+                    <tbody id="table-body" role='row'>
                         {timeSheetRows && timeSheetRows.length > 0 && timeSheetRows.map((row, index) => {
                             return (
                                 <tr className={(row.status === "approve") ? "disableRow" : ""} >
@@ -541,10 +539,9 @@ const TimeSheetEntry = (props) => {
                                 </tr>
                             )
                         })}
-                        <tr>
+                       {window.location.href.includes("employee") && userHaveData === false && <tr>
                             <td className='col-md-2'>{window.location.href.includes("employee") && userHaveData === false && <button class="btn btn-secondary" id="add-row" onClick={addTableRow} style={{ height: '40px', width: '150px' }} role="button" tabindex="0" aria-label="Add Row">Add Row</button>}</td>
-                             <td className='col-md-2'></td>  
-                            <td className='col-md-1 text-center' aria-label="Total for the day1"><p>{day1Total}</p></td>
+                             <td className='col-md-2'></td>                           <td className='col-md-1 text-center' aria-label="Total for the day1"><p>{day1Total}</p></td>
                             <td className='col-md-1 text-center' aria-label="Total for the day2"><p>{day2Total}</p></td>
                             <td className='col-md-1 text-center' aria-label="Total for the day3"><p>{day3Total}</p></td>
                             <td className='col-md-1 text-center' aria-label="Total for the day4"><p>{day4Total}</p></td>
@@ -554,7 +551,8 @@ const TimeSheetEntry = (props) => {
                             {window.location.href.includes("employee") && <td className='col-md-1'></td>} 
                             <td className='col-md-1' aria-label="Total for the week"><p>{day1Total + day2Total + day3Total + day4Total + day5Total + day6Total + day7Total}</p></td>
                         </tr>
-                            <td> {window.location.href.includes("manager")  || window.location.href.includes("details") && <input type="text" value={comments} onChange={(e) => handleComments(e)} placeholder='comments' style={{ marginTop: '20px', width: '400%', height: '50px', border: '1px solid #D6EAF8' }} aria-label="Comments" tabIndex={0}/>}</td>
+}
+                        {window.location.href.includes("manager")  || window.location.href.includes("details")  && <td>  <input type="text" value={comments} onChange={(e) => handleComments(e)} placeholder='comments' style={{ marginTop: '20px', width: '400%', height: '50px', border: '1px solid #D6EAF8' }} aria-label="Comments" tabIndex={0}/></td>}
                     </tbody>
                 </table>
 
